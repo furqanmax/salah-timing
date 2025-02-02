@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LandingPageController;
+use App\Filament\Resources\MosqueResource;
+use App\Filament\Pages\MosquePage;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,7 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+
+
+
+
+
+// Route::get('/', function () {
+//     return view('landing'); // Display landing page
+// });
+
+// Route::middleware(['auth'])->group(function () {
+//     Filament::routes();
+// });
+
+// Route::get('/',  MosquePage::class);
+
+Route::get('/', [LandingPageController::class, 'index']);

@@ -18,30 +18,35 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Widgets\MosqueTableWidget;
+use App\Filament\Pages\MosquePage;
+use App\Filament\Pages\Dashboard;
+use App\Filament\Mosque\Widgets\MosqueInfoWidget;
 
-
-class AdminPanelProvider extends PanelProvider
+class MosquePanelProvider extends PanelProvider
 {
+
+    protected static bool $shouldRegisterNavigation = false;
+    protected int | string | array $columnSpan = 'full';
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
+            ->id('mosque')
+            ->path('mosque')
             ->colors([
                 'primary' => Color::Amber,
             ])
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->discoverResources(in: app_path('Filament/Mosque/Resources'), for: 'App\\Filament\\Mosque\\Resources')
+            ->discoverPages(in: app_path('Filament/Mosque/Pages'), for: 'App\\Filament\\Mosque\\Pages')
             ->pages([
                 Pages\Dashboard::class,
+                // MosquePage::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Mosque/Widgets'), for: 'App\\Filament\\Mosque\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
                 MosqueTableWidget::class,
+                MosqueInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -55,7 +60,13 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
             ])
             ->authMiddleware([
-                Authenticate::class,
-            ]);
+                // Authenticate::class,
+            ]) ->topNavigation();
     }
+
+
+    public static function shouldRegisterNavigation(): bool
+{
+    return false;
+}
 }
